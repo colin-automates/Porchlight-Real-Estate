@@ -10,7 +10,9 @@ import {
 } from "./data";
 
 export const metadata: Metadata = {
-  title: "Porchlight Real Estate | Greater Chattanooga Real Estate",
+  title: {
+    absolute: "Porchlight Real Estate | Greater Chattanooga Real Estate",
+  },
   description:
     "Porchlight Real Estate serves buyers and sellers across Greater Chattanooga with local expertise and relationship-focused guidance.",
   alternates: { canonical: "/" },
@@ -247,4 +249,3 @@ export default function Home() {
     </main>
   );
 }
-
