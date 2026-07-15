@@ -1,46 +1,58 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PageIntro } from "../components/PageIntro";
+import { BreadcrumbJsonLd } from "../components/BreadcrumbJsonLd";
 import { testimonials } from "../data";
+import { pageMetadata } from "../lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Client Testimonials",
   description:
-    "Read what Porchlight Real Estate clients say about working with the team.",
-  alternates: { canonical: "/testimonials" },
-};
+    "Read source-approved client testimonials for Porchlight Real Estate agents.",
+  path: "/testimonials",
+});
 
 export default function TestimonialsPage() {
   return (
     <main id="main-content">
-      <PageIntro
-        eyebrow="Client stories"
-        title="Relationships remembered after closing day."
-        description="Real words from clients who trusted Porchlight agents with their home journey."
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Client Testimonials", path: "/testimonials" },
+        ]}
       />
-      <section className="testimonial-ledger section-pad">
-        <div className="site-wrap">
-          {testimonials.map((testimonial, index) => (
+      <section className="testimonial-mast page-mast page-mast-dark">
+        <div className="shell narrow-mast">
+          <p className="label label-light">Client experiences</p>
+          <h1>What working with Porchlight has felt like.</h1>
+          <p>
+            These words come directly from clients who trusted Porchlight
+            agents with an important move.
+          </p>
+        </div>
+      </section>
+
+      <section className="testimonial-list-section section-space">
+        <div className="shell testimonial-list">
+          {testimonials.map((testimonial) => (
             <figure key={testimonial.name}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
               <blockquote>“{testimonial.quote}”</blockquote>
               <figcaption>{testimonial.name}</figcaption>
             </figure>
           ))}
         </div>
       </section>
-      <section className="simple-cta section-pad">
-        <div className="site-wrap simple-cta__inner">
+
+      <section className="simple-contact section-space">
+        <div className="shell simple-contact-grid">
+          <h2>Ready for your own conversation?</h2>
           <div>
-            <p className="eyebrow">Your story begins here</p>
-            <h2>Meet the team behind the experience.</h2>
+            <p>Start with the questions and priorities already on your mind.</p>
+            <Link className="button" href="/contact">
+              Contact Porchlight
+            </Link>
           </div>
-          <Link className="button" href="/agents">
-            Meet our agents
-          </Link>
         </div>
       </section>
     </main>
   );
 }
-

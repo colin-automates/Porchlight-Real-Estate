@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { articles, company } from "../../data";
+import { articles } from "../../data";
+import { pageMetadata } from "../../lib/metadata";
+import { articleSchema, breadcrumbSchema } from "../../lib/structured-data";
 
-type ArticlePageProps = {
-  params: Promise<{ slug: string }>;
-};
+type ArticlePageProps = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 
@@ -18,78 +18,59 @@ export async function generateMetadata({
 }: ArticlePageProps): Promise<Metadata> {
   const { slug } = await params;
   const article = articles.find((item) => item.slug === slug);
+  if (!article) return {};
 
-  if (!article) {
-    return {};
-  }
-
-  return {
+  return pageMetadata({
     title: article.title,
     description: article.excerpt,
-    alternates: { canonical: `/blog/${article.slug}` },
-    openGraph: {
-      type: "article",
-      title: article.title,
-      description: article.excerpt,
-      images: [{ url: article.image, alt: article.alt }],
-    },
-  };
+    path: `/blog/${article.slug}`,
+    type: "article",
+    image: { url: article.image, alt: article.alt },
+  });
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
   const article = articles.find((item) => item.slug === slug);
-
-  if (!article) {
-    notFound();
-  }
+  if (!article) notFound();
 
   const related = articles.filter((item) => item.slug !== article.slug);
-  const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: article.title,
-    description: article.excerpt,
-    image: `${company.currentSite}${article.image}`,
-    author: { "@type": "Organization", name: company.name },
-    publisher: {
-      "@type": "Organization",
-      name: company.name,
-      logo: {
-        "@type": "ImageObject",
-        url: `${company.currentSite}/assets/brand/porchlight-logo.png`,
-      },
-    },
-    mainEntityOfPage: `${company.currentSite}/blog/${article.slug}`,
-  };
 
   return (
     <main id="main-content">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            articleSchema(article),
+            breadcrumbSchema([
+              { name: "Home", path: "/" },
+              { name: "Journal", path: "/blog" },
+              { name: article.title, path: `/blog/${article.slug}` },
+            ]),
+          ]),
+        }}
       />
       <article className="article-page">
-        <header className="article-header">
-          <div className="site-wrap article-header__inner">
-            <Link className="text-link text-link--light" href="/blog">
+        <header className="article-mast">
+          <div className="shell article-mast-copy">
+            <Link className="text-link" href="/blog">
               ← Back to the journal
             </Link>
-            <p className="eyebrow eyebrow--light">{article.category}</p>
+            <p className="label">{article.category}</p>
             <h1>{article.title}</h1>
-            <div className="article-header__meta">
-              <span>Porchlight Real Estate</span>
-              <span>{article.date}</span>
-              <span>{article.readTime}</span>
-            </div>
+            <p className="article-meta">
+              Porchlight Real Estate <span>•</span> {article.date}{" "}
+              <span>•</span> {article.readTime}
+            </p>
           </div>
         </header>
 
-        <div className="site-wrap article-image">
+        <figure className="shell article-hero-image">
           <img src={article.image} alt={article.alt} />
-        </div>
+        </figure>
 
-        <div className="article-body">
+        <div className="article-reading-column">
           <p className="article-deck">{article.excerpt}</p>
           {article.sections.map((section) => (
             <section key={section.heading}>
@@ -106,8 +87,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               ) : null}
             </section>
           ))}
-          <aside className="article-contact">
-            <p className="eyebrow">A local conversation</p>
+
+          <aside className="article-help">
+            <p className="label">A local conversation</p>
             <h2>Questions about your next step?</h2>
             <p>
               Porchlight agents are here to help you understand the process
@@ -119,29 +101,22 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           </aside>
         </div>
 
-        <section className="related-posts section-pad">
-          <div className="site-wrap">
-            <div className="section-heading section-heading--inline">
-              <div>
-                <p className="eyebrow">Keep reading</p>
-                <h2>More from the journal.</h2>
-              </div>
+        <section className="related-articles section-space">
+          <div className="shell">
+            <p className="label">Keep reading</p>
+            <h2>More from the journal.</h2>
+            <div>
+              {related.map((item) => (
+                <Link key={item.slug} href={`/blog/${item.slug}`}>
+                  <span>{item.category}</span>
+                  <strong>{item.title}</strong>
+                  <span aria-hidden="true">→</span>
+                </Link>
+              ))}
             </div>
-            {related.map((item) => (
-              <Link
-                className="related-posts__row"
-                key={item.slug}
-                href={`/blog/${item.slug}`}
-              >
-                <span>{item.category}</span>
-                <strong>{item.title}</strong>
-                <span aria-hidden="true">↗</span>
-              </Link>
-            ))}
           </div>
         </section>
       </article>
     </main>
   );
 }
-

@@ -1,42 +1,52 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PageIntro } from "../components/PageIntro";
+import { BreadcrumbJsonLd } from "../components/BreadcrumbJsonLd";
 import { articles } from "../data";
+import { pageMetadata } from "../lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Real Estate Journal",
   description:
     "Practical home buying and selling guidance from Porchlight Real Estate in Chattanooga.",
-  alternates: { canonical: "/blog" },
-};
+  path: "/blog",
+});
 
 export default function BlogPage() {
   return (
     <main id="main-content">
-      <PageIntro
-        eyebrow="The Porchlight Journal"
-        title="Useful guidance for the road home."
-        description="Straightforward perspectives on buying, selling, inspections, financing preparation, and the decisions in between."
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Real Estate Journal", path: "/blog" },
+        ]}
       />
+      <section className="journal-mast page-mast">
+        <div className="shell journal-mast-grid">
+          <div>
+            <p className="label">The Porchlight Journal</p>
+            <h1>Useful guidance for the road home.</h1>
+          </div>
+          <p>
+            Straightforward perspectives on buying, selling, inspections,
+            financing preparation, and the decisions in between.
+          </p>
+        </div>
+      </section>
 
-      <section className="journal-index section-pad">
-        <div className="site-wrap">
-          {articles.map((article, index) => (
-            <article key={article.slug} className="journal-index__article">
+      <section className="journal-list-section section-space">
+        <div className="shell article-row-list article-row-list-large">
+          {articles.map((article) => (
+            <article className="article-row" key={article.slug}>
               <Link href={`/blog/${article.slug}`}>
-                <div className="journal-index__number">
-                  {String(index + 1).padStart(2, "0")}
-                </div>
-                <div className="image-reveal">
-                  <img src={article.image} alt={article.alt} />
-                </div>
+                <img src={article.image} alt={article.alt} loading="lazy" />
                 <div>
                   <p className="article-meta">
-                    {article.category} · {article.date} · {article.readTime}
+                    {article.category} <span>•</span> {article.date}{" "}
+                    <span>•</span> {article.readTime}
                   </p>
                   <h2>{article.title}</h2>
                   <p>{article.excerpt}</p>
-                  <span className="text-link">Read article</span>
+                  <span className="text-link">Read article →</span>
                 </div>
               </Link>
             </article>
@@ -46,4 +56,3 @@ export default function BlogPage() {
     </main>
   );
 }
-

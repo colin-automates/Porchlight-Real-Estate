@@ -4,29 +4,25 @@ import { useState } from "react";
 import { testimonials } from "../data";
 
 export function Testimonials() {
-  const [index, setIndex] = useState(0);
-  const active = testimonials[index];
+  const [activeName, setActiveName] = useState(testimonials[0].name);
+  const active =
+    testimonials.find((testimonial) => testimonial.name === activeName) ??
+    testimonials[0];
 
   return (
-    <div className="testimonial-stage">
-      <div className="testimonial-stage__index" aria-hidden="true">
-        0{index + 1}
-      </div>
-      <figure key={active.name}>
+    <div className="quote-switcher">
+      <figure aria-live="polite">
         <blockquote>“{active.quote}”</blockquote>
         <figcaption>{active.name}</figcaption>
       </figure>
-      <div className="testimonial-controls" aria-label="Testimonial controls">
-        {testimonials.map((testimonial, testimonialIndex) => (
+      <div className="quote-names" aria-label="Choose a client testimonial">
+        {testimonials.map((testimonial) => (
           <button
             key={testimonial.name}
             type="button"
-            className={testimonialIndex === index ? "is-active" : ""}
-            aria-label={`Show testimonial from ${testimonial.name}`}
-            aria-pressed={testimonialIndex === index}
-            onClick={() => setIndex(testimonialIndex)}
+            aria-pressed={testimonial.name === active.name}
+            onClick={() => setActiveName(testimonial.name)}
           >
-            <span>0{testimonialIndex + 1}</span>
             {testimonial.name}
           </button>
         ))}
@@ -34,4 +30,3 @@ export function Testimonials() {
     </div>
   );
 }
-

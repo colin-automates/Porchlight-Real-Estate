@@ -1,25 +1,26 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import "@fontsource-variable/dm-sans";
-import "@fontsource-variable/newsreader";
 import "./globals.css";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
+import { resolveSiteOrigin, siteIsIndexable } from "./lib/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
   const host = requestHeaders.get("host") ?? "www.porchlightrealestate.co";
-  const protocol = host.includes("localhost") ? "http" : "https";
-  const metadataBase = new URL(`${protocol}://${host}`);
+  const siteOrigin = resolveSiteOrigin(host);
 
   return {
-    metadataBase,
+    metadataBase: new URL(siteOrigin),
     title: {
-      default: "Porchlight Real Estate | Greater Chattanooga Real Estate",
+      default: "Porchlight Real Estate | Greater Chattanooga",
       template: "%s | Porchlight Real Estate",
     },
     description:
-      "A boutique brokerage serving the Greater Chattanooga area with relationship-focused guidance for buyers and sellers.",
+      "A real estate brokerage serving Greater Chattanooga with relationship-focused guidance for buyers and sellers.",
+    robots: siteIsIndexable
+      ? { index: true, follow: true }
+      : { index: false, follow: false, noarchive: true },
     icons: {
       icon: "/assets/brand/porchlight-mark.png",
       shortcut: "/assets/brand/porchlight-mark.png",
@@ -28,35 +29,34 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       type: "website",
       siteName: "Porchlight Real Estate",
-      title: "Porchlight Real Estate | Greater Chattanooga Real Estate",
-      description:
-        "Redefining real estate, one relationship at a time.",
+      title: "Porchlight Real Estate | Greater Chattanooga",
+      description: "Redefining real estate, one relationship at a time.",
       images: [
         {
-          url: "/og.png",
+          url: "/og.jpg",
           width: 1200,
           height: 630,
-          alt: "Porchlight Real Estate in Greater Chattanooga",
+          alt: "A welcoming shaded residential porch",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Porchlight Real Estate | Greater Chattanooga Real Estate",
-      description:
-        "Redefining real estate, one relationship at a time.",
-      images: ["/og.png"],
+      title: "Porchlight Real Estate | Greater Chattanooga",
+      description: "Redefining real estate, one relationship at a time.",
+      images: ["/og.jpg"],
     },
   };
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="stylesheet" href="/vendor/leaflet/leaflet.css" />
+      </head>
       <body>
         <a className="skip-link" href="#main-content">
           Skip to main content

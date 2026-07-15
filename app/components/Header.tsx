@@ -1,82 +1,128 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { company, navItems } from "../data";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const panel = panelRef.current;
+    const menuButton = menuButtonRef.current;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const focusable = panel?.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    );
+    focusable?.[0]?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (event.key !== "Tab" || !focusable?.length) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+      menuButton?.focus();
+    };
+  }, [open]);
+
+  const closeMenu = () => setOpen(false);
 
   return (
-    <>
-      <div className="utility-bar">
-        <div className="site-wrap utility-bar__inner">
-          <span>Serving the Greater Chattanooga area</span>
-          <a href={company.phoneHref}>{company.phoneDisplay}</a>
+    <header className="masthead" data-open={open || undefined}>
+      <div className="shell masthead-row">
+        <button
+          ref={menuButtonRef}
+          className="menu-trigger"
+          type="button"
+          aria-expanded={open}
+          aria-controls="porchlight-menu"
+          onClick={() => setOpen((value) => !value)}
+        >
+          <span className="menu-trigger-lines" aria-hidden="true">
+            <span />
+            <span />
+          </span>
+          <span>{open ? "Close" : "Menu"}</span>
+        </button>
+
+        <Link
+          className="masthead-logo"
+          href="/"
+          aria-label="Porchlight Real Estate home"
+          onClick={closeMenu}
+        >
+          <img src="/assets/brand/porchlight-logo.png" alt="Porchlight Real Estate" />
+        </Link>
+
+        <div className="masthead-actions">
+          <a className="masthead-phone" href={company.phoneHref}>
+            {company.phoneDisplay}
+          </a>
+          <Link href="/contact" onClick={closeMenu}>
+            Contact
+          </Link>
         </div>
       </div>
-      <header className="site-header">
-        <div className="site-wrap site-header__inner">
-          <Link
-            className="brand-link"
-            href="/"
-            aria-label="Porchlight Real Estate home"
-            onClick={() => setOpen(false)}
-          >
-            <img
-              src="/assets/brand/porchlight-logo.png"
-              alt="Porchlight Real Estate"
-            />
-          </Link>
 
-          <nav className="desktop-nav" aria-label="Primary navigation">
-            {navItems.map((item) => (
-              <Link key={item.href} href={item.href}>
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          <Link className="button button--small header-cta" href="/contact">
-            Start a conversation
-          </Link>
-
-          <button
-            className="menu-button"
-            type="button"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            aria-controls="mobile-navigation"
-            onClick={() => setOpen((value) => !value)}
-          >
-            <span />
-            <span />
-          </button>
-        </div>
-
-        <nav
-          id="mobile-navigation"
-          className={`mobile-nav${open ? " mobile-nav--open" : ""}`}
-          aria-label="Mobile navigation"
+      {open ? (
+        <div
+          ref={panelRef}
+          id="porchlight-menu"
+          className="menu-panel"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site menu"
         >
-          <div className="site-wrap mobile-nav__inner">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-              >
-                {item.label}
+          <button className="menu-panel-close" type="button" onClick={closeMenu}>
+            Close menu
+          </button>
+          <div className="shell menu-panel-grid">
+            <nav className="menu-primary" aria-label="Primary navigation">
+              {navItems.map((item) => (
+                <Link key={item.href} href={item.href} onClick={closeMenu}>
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+            <div className="menu-contact">
+              <p>Serving Greater Chattanooga and nearby North Georgia.</p>
+              <address>
+                {company.addressLine1}
+                <br />
+                {company.addressLine2}
+              </address>
+              <a href={company.phoneHref}>{company.phoneDisplay}</a>
+              <a href={`mailto:${company.email}`}>{company.email}</a>
+              <Link href="/testimonials" onClick={closeMenu}>
+                Client testimonials
               </Link>
-            ))}
-            <Link href="/contact" onClick={() => setOpen(false)}>
-              Contact
-            </Link>
-            <a href={company.phoneHref}>{company.phoneDisplay}</a>
+            </div>
           </div>
-        </nav>
-      </header>
-    </>
+        </div>
+      ) : null}
+    </header>
   );
 }
-

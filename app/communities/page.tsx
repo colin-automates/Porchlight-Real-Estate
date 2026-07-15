@@ -1,61 +1,66 @@
 import type { Metadata } from "next";
-import { CommunityExplorer } from "../components/CommunityExplorer";
-import { PageIntro } from "../components/PageIntro";
-import { communities } from "../data";
+import Link from "next/link";
+import { BreadcrumbJsonLd } from "../components/BreadcrumbJsonLd";
+import { CommunityMap } from "../components/CommunityMap";
+import { pageMetadata } from "../lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Greater Chattanooga Communities",
   description:
-    "Explore communities served by Porchlight Real Estate throughout Greater Chattanooga and nearby North Georgia.",
-  alternates: { canonical: "/communities" },
-};
+    "Explore communities featured by Porchlight Real Estate across Greater Chattanooga and nearby North Georgia.",
+  path: "/communities",
+});
 
 export default function CommunitiesPage() {
   return (
     <main id="main-content">
-      <PageIntro
-        eyebrow="Communities"
-        title="A local view of the Chattanooga area."
-        description="From established city neighborhoods to communities across the ridges and into North Georgia, Porchlight brings local perspective to the search."
-        image="/assets/brand/communities-hero.webp"
-        imageAlt="A home in the Chattanooga area"
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          {
+            name: "Greater Chattanooga Communities",
+            path: "/communities",
+          },
+        ]}
       />
-
-      <section className="community-page-map section-pad">
-        <div className="site-wrap">
-          <CommunityExplorer />
+      <section className="communities-mast">
+        <figure>
+          <img
+            src="/assets/brand/communities-hero.webp"
+            alt="Downtown Chattanooga and the Tennessee River"
+          />
+        </figure>
+        <div>
+          <p className="label">Greater Chattanooga</p>
+          <h1>See how the places around the city connect.</h1>
+          <p>
+            From established city neighborhoods to communities across the
+            ridges and into North Georgia, Porchlight brings a local perspective
+            to the search.
+          </p>
         </div>
       </section>
 
-      <section className="community-index section-pad">
-        <div className="site-wrap">
-          <div className="section-heading section-heading--split">
-            <div>
-              <p className="eyebrow">The area at a glance</p>
-              <h2>Every community has its own sense of home.</h2>
-            </div>
+      <section className="map-section section-space">
+        <div className="shell">
+          <CommunityMap />
+        </div>
+      </section>
+
+      <section className="community-contact section-space">
+        <div className="shell simple-contact-grid">
+          <h2>Need help comparing areas?</h2>
+          <div>
             <p>
-              Browse the complete list of communities featured by Porchlight.
-              Reach out for personal guidance on the areas that fit your move.
+              A map is a starting point. A Porchlight agent can help connect
+              your priorities with the places that make sense for your move.
             </p>
-          </div>
-          <div className="community-gallery">
-            {communities.map((community, index) => (
-              <article
-                key={community.slug}
-                className={`community-tile community-tile--${(index % 5) + 1}`}
-              >
-                <img src={community.image} alt={`Home in ${community.name}`} />
-                <div>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <h3>{community.name}</h3>
-                </div>
-              </article>
-            ))}
+            <Link className="button" href="/contact">
+              Ask a local agent
+            </Link>
           </div>
         </div>
       </section>
     </main>
   );
 }
-

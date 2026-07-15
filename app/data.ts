@@ -1,4 +1,19 @@
-export const company = {
+export type Company = {
+  name: string;
+  legalName: string;
+  tagline: string;
+  phoneDisplay: string;
+  phoneHref: string;
+  email: string;
+  addressLine1: string;
+  addressLine2: string;
+  license: string;
+  broker: string;
+  instagram: string;
+  currentSite: string;
+};
+
+export const company: Company = {
   name: "Porchlight Real Estate",
   legalName: "Porchlight Real Estate LLC",
   tagline: "Redefining real estate, one relationship at a time.",
@@ -15,12 +30,13 @@ export const company = {
 };
 
 export const navItems = [
-  { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
+  { label: "Buy", href: "/buying" },
+  { label: "Sell", href: "/selling" },
   { label: "Communities", href: "/communities" },
   { label: "Agents", href: "/agents" },
+  { label: "About", href: "/about" },
   { label: "Journal", href: "/blog" },
-];
+] as const;
 
 export const aboutParagraphs = [
   "Porchlight Real Estate was founded on a simple belief: real estate should be about people, not profit margins. After years of experience in both hospitality and real estate, we recognized that the best service comes from putting clients first and empowering our team to do what’s right.",
@@ -30,21 +46,27 @@ export const aboutParagraphs = [
   "With over a decade of experience serving the Chattanooga area, our team is dedicated to redefining real estate through authentic relationships and personalized service.",
 ];
 
-export const services = [
+export type Service = {
+  slug: "buying" | "selling" | "support";
+  title: string;
+  intro: string;
+  items: string[];
+};
+
+export const services: Service[] = [
   {
-    number: "01",
+    slug: "buying",
     title: "Buying Representation",
-    intro:
-      "A clear, personal path from the first search through closing day.",
+    intro: "A clear, personal path from the first search through closing day.",
     items: [
       "Personalized home search",
-      "Home tours, including virtual tours",
+      "Home tours",
       "Offer strategy and negotiations",
       "Contract-to-close coordination",
     ],
   },
   {
-    number: "02",
+    slug: "selling",
     title: "Selling & Listing Services",
     intro:
       "Thoughtful preparation, professional presentation, and steady guidance.",
@@ -56,7 +78,7 @@ export const services = [
     ],
   },
   {
-    number: "03",
+    slug: "support",
     title: "Client Support & Local Expertise",
     intro:
       "Local perspective and practical connections for every stage of the move.",
@@ -69,7 +91,9 @@ export const services = [
   },
 ];
 
-export const testimonials = [
+export type Testimonial = { name: string; quote: string };
+
+export const testimonials: Testimonial[] = [
   {
     name: "Lily J",
     quote:
@@ -87,7 +111,17 @@ export const testimonials = [
   },
 ];
 
-export const agents = [
+export type Agent = {
+  name: string;
+  role: string;
+  email: string;
+  phone: string;
+  phoneHref: string;
+  image: string;
+  instagram?: string;
+};
+
+export const agents: Agent[] = [
   {
     name: "Christian Beairsto",
     role: "Owner and Broker",
@@ -178,25 +212,37 @@ export const agents = [
   },
 ];
 
-export const communities = [
-  { name: "East Brainerd", slug: "east-brainerd", image: "/assets/communities/east-brainerd.webp", x: 68, y: 53 },
-  { name: "Ringgold", slug: "ringgold", image: "/assets/communities/ringgold.webp", x: 62, y: 76 },
-  { name: "North Shore", slug: "north-shore", image: "/assets/communities/north-shore.webp", x: 45, y: 48 },
-  { name: "Soddy Daisy", slug: "soddy-daisy", image: "/assets/communities/soddy-daisy.webp", x: 46, y: 19 },
-  { name: "Ooltewah", slug: "ooltewah", image: "/assets/communities/ooltewah.webp", x: 77, y: 42 },
-  { name: "East Ridge", slug: "east-ridge", image: "/assets/communities/east-ridge.webp", x: 57, y: 61 },
-  { name: "Signal Mountain", slug: "signal-mountain", image: "/assets/communities/signal-mountain.webp", x: 31, y: 33 },
-  { name: "Dunlap", slug: "dunlap", image: "/assets/communities/dunlap.webp", x: 22, y: 12 },
-  { name: "Cleveland", slug: "cleveland", image: "/assets/communities/cleveland.webp", x: 87, y: 27 },
-  { name: "St Elmo", slug: "st-elmo", image: "/assets/communities/st-elmo.webp", x: 41, y: 63 },
-  { name: "Red Bank", slug: "red-bank", image: "/assets/communities/red-bank.webp", x: 42, y: 39 },
-  { name: "Whitwell", slug: "whitwell", image: "/assets/communities/whitwell.webp", x: 15, y: 39 },
-  { name: "Apison", slug: "apison", image: "/assets/communities/apison.webp", x: 83, y: 54 },
-  { name: "Highland Park", slug: "highland-park", image: "/assets/communities/highland-park.webp", x: 51, y: 53 },
-  { name: "Lookout Mountain", slug: "lookout-mountain", image: "/assets/communities/lookout-mountain.webp", x: 30, y: 68 },
-  { name: "Hixson", slug: "hixson", image: "/assets/communities/hixson.webp", x: 53, y: 31 },
-  { name: "Fort Oglethorpe", slug: "fort-oglethorpe", image: "/assets/communities/fort-oglethorpe.webp", x: 49, y: 73 },
-  { name: "Black Creek", slug: "black-creek", image: "/assets/communities/black-creek.webp", x: 24, y: 57 },
+export type Community = {
+  name: string;
+  slug: string;
+  state: "TN" | "GA";
+  latitude: number;
+  longitude: number;
+  coordinateSource: string;
+  verifiedAt: string;
+};
+
+const verifiedAt = "2026-07-15";
+
+export const communities: Community[] = [
+  { name: "East Brainerd", slug: "east-brainerd", state: "TN", latitude: 34.997024, longitude: -85.155291, coordinateSource: "https://services.arcgis.com/UnTXoPXBYERF0OH6/ArcGIS/rest/services/Chattanooga_Neighborhoods_SW2/FeatureServer/15/query?objectIds=17&outFields=Name&returnGeometry=false&returnCentroid=true&outSR=4326&f=json", verifiedAt },
+  { name: "Ringgold", slug: "ringgold", state: "GA", latitude: 34.913616, longitude: -85.121393, coordinateSource: "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_gaz_place_13.txt", verifiedAt },
+  { name: "North Shore", slug: "north-shore", state: "TN", latitude: 35.060796, longitude: -85.307278, coordinateSource: "https://nominatim.openstreetmap.org/lookup?osm_ids=W45115507&format=jsonv2", verifiedAt },
+  { name: "Soddy Daisy", slug: "soddy-daisy", state: "TN", latitude: 35.261575, longitude: -85.172121, coordinateSource: "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_gaz_place_47.txt", verifiedAt },
+  { name: "Ooltewah", slug: "ooltewah", state: "TN", latitude: 35.072335, longitude: -85.054466, coordinateSource: "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_gaz_place_47.txt", verifiedAt },
+  { name: "East Ridge", slug: "east-ridge", state: "TN", latitude: 34.997302, longitude: -85.228507, coordinateSource: "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_gaz_place_47.txt", verifiedAt },
+  { name: "Signal Mountain", slug: "signal-mountain", state: "TN", latitude: 35.143893, longitude: -85.341469, coordinateSource: "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_gaz_place_47.txt", verifiedAt },
+  { name: "Dunlap", slug: "dunlap", state: "TN", latitude: 35.36753, longitude: -85.389828, coordinateSource: "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_gaz_place_47.txt", verifiedAt },
+  { name: "Cleveland", slug: "cleveland", state: "TN", latitude: 35.180044, longitude: -84.871288, coordinateSource: "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_gaz_place_47.txt", verifiedAt },
+  { name: "St Elmo", slug: "st-elmo", state: "TN", latitude: 34.998385, longitude: -85.330738, coordinateSource: "https://services.arcgis.com/UnTXoPXBYERF0OH6/ArcGIS/rest/services/Chattanooga_Neighborhood_Associations_2025/FeatureServer/1/query?objectIds=44&outFields=name&returnGeometry=false&returnCentroid=true&outSR=4326&f=json", verifiedAt },
+  { name: "Red Bank", slug: "red-bank", state: "TN", latitude: 35.111695, longitude: -85.296162, coordinateSource: "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_gaz_place_47.txt", verifiedAt },
+  { name: "Whitwell", slug: "whitwell", state: "TN", latitude: 35.192393, longitude: -85.521532, coordinateSource: "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_gaz_place_47.txt", verifiedAt },
+  { name: "Apison", slug: "apison", state: "TN", latitude: 35.004854, longitude: -85.009676, coordinateSource: "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_gaz_place_47.txt", verifiedAt },
+  { name: "Highland Park", slug: "highland-park", state: "TN", latitude: 35.02635, longitude: -85.279994, coordinateSource: "https://services.arcgis.com/UnTXoPXBYERF0OH6/ArcGIS/rest/services/Chattanooga_Neighborhoods_SW2/FeatureServer/15/query?objectIds=3&outFields=Name&returnGeometry=false&returnCentroid=true&outSR=4326&f=json", verifiedAt },
+  { name: "Lookout Mountain", slug: "lookout-mountain", state: "TN", latitude: 34.994485, longitude: -85.351577, coordinateSource: "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_gaz_place_47.txt", verifiedAt },
+  { name: "Hixson", slug: "hixson", state: "TN", latitude: 35.145651, longitude: -85.235488, coordinateSource: "https://services.arcgis.com/UnTXoPXBYERF0OH6/ArcGIS/rest/services/Chattanooga_Neighborhoods_SW2/FeatureServer/15/query?objectIds=11&outFields=Name&returnGeometry=false&returnCentroid=true&outSR=4326&f=json", verifiedAt },
+  { name: "Fort Oglethorpe", slug: "fort-oglethorpe", state: "GA", latitude: 34.931849, longitude: -85.24601, coordinateSource: "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_gaz_place_13.txt", verifiedAt },
+  { name: "Black Creek", slug: "black-creek", state: "TN", latitude: 35.015796, longitude: -85.401125, coordinateSource: "https://services.arcgis.com/UnTXoPXBYERF0OH6/ArcGIS/rest/services/Chattanooga_Neighborhood_Associations_2025/FeatureServer/1/query?objectIds=103&outFields=name&returnGeometry=false&returnCentroid=true&outSR=4326&f=json", verifiedAt },
 ];
 
 export type ArticleSection = {
@@ -210,6 +256,8 @@ export type Article = {
   category: string;
   title: string;
   date: string;
+  publishedAt: string;
+  modifiedAt: string;
   readTime: string;
   excerpt: string;
   image: string;
@@ -222,12 +270,14 @@ export const articles: Article[] = [
     slug: "understanding-home-inspections-and-negotiating-repairs-with-sellers",
     category: "Buying",
     title: "Understanding Home Inspections and Negotiating Repairs with Sellers",
-    date: "Feb 17",
+    date: "February 17, 2026",
+    publishedAt: "2026-02-17T14:39:32.598Z",
+    modifiedAt: "2026-02-17T14:43:38.602Z",
     readTime: "3 min read",
     excerpt:
       "A practical look at inspection reports, repair priorities, and the choices buyers can bring to the negotiating table.",
-    image: "/assets/journal/home-inspection.webp",
-    alt: "A home inspector examining a house exterior",
+    image: "/assets/rebuild/home-inspection.webp",
+    alt: "A residential inspector using a diagnostic meter in a bathroom",
     sections: [
       {
         heading: "What a home inspection is for",
@@ -257,12 +307,14 @@ export const articles: Article[] = [
     slug: "common-mistakes-sellers-make-that-sabotage-their-listings",
     category: "Selling",
     title: "Common Mistakes Sellers Make (and How to Avoid Them)",
-    date: "Feb 10",
+    date: "February 10, 2026",
+    publishedAt: "2026-02-10T21:16:01.707Z",
+    modifiedAt: "2026-02-10T21:54:10.477Z",
     readTime: "3 min read",
     excerpt:
       "From pricing and preparation to photography and showings, the details that can help a listing reach buyers with confidence.",
-    image: "/assets/journal/seller-mistakes.webp",
-    alt: "A bright, well-staged kitchen",
+    image: "/assets/rebuild/seller-preparation.webp",
+    alt: "A photographer preparing a home interior for a listing",
     sections: [
       {
         heading: "Start with a grounded price",
@@ -291,12 +343,14 @@ export const articles: Article[] = [
     slug: "the-importance-of-getting-pre-approved-before-you-start-house-hunting",
     category: "Buying",
     title: "The Importance of Getting Pre-Approved Before You Start House Hunting",
-    date: "Feb 3",
+    date: "February 3, 2026",
+    publishedAt: "2026-02-03T15:51:14.846Z",
+    modifiedAt: "2026-02-03T15:51:14.846Z",
     readTime: "3 min read",
     excerpt:
       "Why early lender preparation can clarify a budget, strengthen an offer, and make a Chattanooga home search more focused.",
-    image: "/assets/journal/pre-approval.webp",
-    alt: "A tree-lined Chattanooga neighborhood street",
+    image: "/assets/rebuild/preapproval-meeting.webp",
+    alt: "Home buyers reviewing mortgage paperwork at a table",
     sections: [
       {
         heading: "What pre-approval means",
@@ -322,7 +376,3 @@ export const articles: Article[] = [
     ],
   },
 ];
-
-export const consentCopy =
-  "I agree to be contacted by Porchlight Real Estate via call, email, and text for real estate services. By submitting this form, I confirm that I am opting in to receive communications. To opt out, I can reply ‘STOP’ at any time. I can also click the unsubscribe link in any email. Message and data rates may apply. Message frequency may vary.";
-

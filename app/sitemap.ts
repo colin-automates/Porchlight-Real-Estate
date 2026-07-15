@@ -1,22 +1,24 @@
 import type { MetadataRoute } from "next";
 import { headers } from "next/headers";
 import { articles } from "./data";
+import { resolveSiteOrigin } from "./lib/metadata";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const requestHeaders = await headers();
   const host = requestHeaders.get("host") ?? "www.porchlightrealestate.co";
-  const protocol = host.includes("localhost") ? "http" : "https";
-  const base = `${protocol}://${host}`;
+  const base = resolveSiteOrigin(host);
   const routes = [
     "",
     "/about",
     "/services",
+    "/buying",
+    "/selling",
     "/communities",
     "/agents",
     "/testimonials",
     "/blog",
     "/contact",
-    "/privacy-policy",
+    "/privacy",
     "/accessibility",
   ];
 
@@ -33,4 +35,3 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   ];
 }
-

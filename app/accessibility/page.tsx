@@ -1,23 +1,31 @@
 import type { Metadata } from "next";
+import { BreadcrumbJsonLd } from "../components/BreadcrumbJsonLd";
 import { company } from "../data";
+import { pageMetadata } from "../lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Accessibility Statement",
   description: "Accessibility statement for Porchlight Real Estate.",
-  alternates: { canonical: "/accessibility" },
-};
+  path: "/accessibility",
+});
 
 export default function AccessibilityPage() {
   return (
     <main id="main-content" className="legal-page">
-      <header className="legal-header">
-        <div className="site-wrap">
-          <p className="eyebrow eyebrow--light">Accessibility</p>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Accessibility Statement", path: "/accessibility" },
+        ]}
+      />
+      <header className="legal-mast page-mast">
+        <div className="shell">
+          <p className="label">Accessibility</p>
           <h1>Accessibility Statement</h1>
-          <p>This statement was last updated on 1/27/26.</p>
+          <p>This statement was last updated on January 27, 2026.</p>
         </div>
       </header>
-      <div className="legal-body legal-body--short">
+      <div className="legal-copy legal-copy-short">
         <p>
           Porchlight Real Estate is committed to making our website accessible
           to all users. We strive to provide a positive experience for
@@ -40,4 +48,3 @@ export default function AccessibilityPage() {
     </main>
   );
 }
-
