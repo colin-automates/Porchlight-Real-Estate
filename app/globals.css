@@ -255,12 +255,13 @@ address {
 .masthead-row {
   display: grid;
   min-height: 88px;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
+  gap: clamp(36px, 5vw, 82px);
 }
 
 .menu-trigger {
-  display: inline-flex;
+  display: none;
   width: max-content;
   gap: 12px;
   align-items: center;
@@ -286,7 +287,7 @@ address {
 }
 
 .masthead-logo {
-  justify-self: center;
+  justify-self: start;
 }
 
 .masthead-logo img {
@@ -294,22 +295,42 @@ address {
   height: auto;
 }
 
-.masthead-actions {
+.masthead-navigation {
   display: flex;
-  gap: 28px;
+  gap: clamp(20px, 2.3vw, 38px);
   align-items: center;
   justify-self: end;
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-size: 0.86rem;
+  font-weight: 680;
 }
 
-.masthead-actions a {
+.masthead-navigation a {
+  position: relative;
   padding-block: 8px;
-  border-bottom: 1px solid transparent;
+  white-space: nowrap;
 }
 
-.masthead-actions a:hover {
-  border-bottom-color: var(--fern);
+.masthead-navigation a::after {
+  position: absolute;
+  right: 0;
+  bottom: 3px;
+  left: 0;
+  height: 1px;
+  background: var(--fern);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 160ms ease;
+}
+
+.masthead-navigation a:hover::after,
+.masthead-navigation a:focus-visible::after,
+.masthead-navigation .schedule-link::after {
+  transform: scaleX(1);
+}
+
+.masthead-navigation .schedule-link::after {
+  background: var(--gold);
 }
 
 .menu-panel {
@@ -1708,10 +1729,6 @@ address {
 }
 
 @media (max-width: 1100px) {
-  .masthead-phone {
-    display: none;
-  }
-
   .home-hero-copy,
   .belief-grid,
   .split-heading,
@@ -1746,21 +1763,35 @@ address {
   }
 }
 
-@media (max-width: 820px) {
+@media (max-width: 980px) {
   body {
     font-size: 17px;
   }
 
   .masthead-row {
     min-height: 76px;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0;
+  }
+
+  .menu-trigger {
+    display: inline-flex;
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .masthead-logo {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
   }
 
   .masthead-logo img {
     width: 184px;
   }
 
-  .masthead-actions {
-    gap: 0;
+  .masthead-navigation {
+    display: none;
   }
 
   .menu-panel {
@@ -1935,10 +1966,6 @@ address {
     height: 1px;
     overflow: hidden;
     clip: rect(0 0 0 0);
-  }
-
-  .masthead-actions {
-    font-size: 0.8rem;
   }
 
   .menu-primary a {

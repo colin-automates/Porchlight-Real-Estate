@@ -22,15 +22,18 @@ export default function ContactPage() {
           { name: "Contact", path: "/contact" },
         ]}
       />
-      <section className="contact-mast page-mast page-mast-dark">
+      <section
+        id="schedule-viewing"
+        className="contact-mast page-mast page-mast-dark"
+      >
         <div className="shell contact-mast-grid">
           <div>
-            <p className="label label-light">Get in touch</p>
-            <h1>Bring the questions. We’ll help with the next step.</h1>
+            <p className="label label-light">Schedule a viewing</p>
+            <h1>Ready to see a home? Start here.</h1>
           </div>
           <p>
-            Buying, selling, relocating, or planning ahead. Reach the
-            Porchlight team directly by phone or email.
+            Call or email Porchlight to coordinate a viewing, discuss a move,
+            or plan the next step.
           </p>
         </div>
       </section>

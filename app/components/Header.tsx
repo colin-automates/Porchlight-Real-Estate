@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { company, navItems } from "../data";
+import { company, headerNavItems } from "../data";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -48,6 +48,15 @@ export function Header() {
     };
   }, [open]);
 
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 981px)");
+    const closeAtDesktop = (event: MediaQueryListEvent) => {
+      if (event.matches) setOpen(false);
+    };
+    desktop.addEventListener("change", closeAtDesktop);
+    return () => desktop.removeEventListener("change", closeAtDesktop);
+  }, []);
+
   const closeMenu = () => setOpen(false);
 
   return (
@@ -77,14 +86,18 @@ export function Header() {
           <img src="/assets/brand/porchlight-logo.png" alt="Porchlight Real Estate" />
         </Link>
 
-        <div className="masthead-actions">
-          <a className="masthead-phone" href={company.phoneHref}>
-            {company.phoneDisplay}
-          </a>
-          <Link href="/contact" onClick={closeMenu}>
-            Contact
-          </Link>
-        </div>
+        <nav className="masthead-navigation" aria-label="Primary navigation">
+          {headerNavItems.map((item) => (
+            <Link
+              key={item.href}
+              className={item.href.startsWith("/contact") ? "schedule-link" : undefined}
+              href={item.href}
+              onClick={closeMenu}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
       </div>
 
       {open ? (
@@ -101,7 +114,7 @@ export function Header() {
           </button>
           <div className="shell menu-panel-grid">
             <nav className="menu-primary" aria-label="Primary navigation">
-              {navItems.map((item) => (
+              {headerNavItems.map((item) => (
                 <Link key={item.href} href={item.href} onClick={closeMenu}>
                   {item.label}
                 </Link>
@@ -114,7 +127,6 @@ export function Header() {
                 <br />
                 {company.addressLine2}
               </address>
-              <a href={company.phoneHref}>{company.phoneDisplay}</a>
               <a href={`mailto:${company.email}`}>{company.email}</a>
               <Link href="/testimonials" onClick={closeMenu}>
                 Client testimonials

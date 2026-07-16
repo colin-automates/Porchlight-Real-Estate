@@ -38,6 +38,14 @@ export const navItems = [
   { label: "Journal", href: "/blog" },
 ] as const;
 
+export const headerNavItems = [
+  { label: "Blog", href: "/blog" },
+  { label: "Our Agents", href: "/agents" },
+  { label: "About", href: "/about" },
+  { label: "Schedule Viewing", href: "/contact#schedule-viewing" },
+  { label: "Communities", href: "/communities" },
+] as const;
+
 export const aboutParagraphs = [
   "Porchlight Real Estate was founded on a simple belief: real estate should be about people, not profit margins. After years of experience in both hospitality and real estate, we recognized that the best service comes from putting clients first and empowering our team to do what’s right.",
   "We’ve built our business differently. Our agents have the freedom to focus entirely on your needs, supported by a leadership structure that prioritizes relationships over rankings. When everyone on the team is valued and supported, that care naturally extends to every client we serve.",

@@ -50,6 +50,7 @@ const FORBIDDEN_LEGACY_UI = [
   ["old header inner", /\bsite-header__inner\b/i],
   ["old desktop navigation", /\bdesktop-nav\b/i],
   ["old header CTA", /\bheader-cta\b/i],
+  ["header phone number", /\bmasthead-phone\b/i],
   ["old mobile navigation", /\bmobile-nav(?:--open|__inner)?\b/i],
   ["service ledger", /\bservice-ledger(?:__row)?\b/i],
   ["service ordinal class", /\bservice-detail__number\b/i],
@@ -159,6 +160,28 @@ test("keeps editorial ordinals and fake community coordinates out of app data", 
       `${label} (${pattern}) remains in: ${files.join(", ")}`,
     );
   }
+});
+
+test("uses the requested primary navigation and no decorative numbering", () => {
+  const header = appFiles.find(
+    ({ relativePath }) => relativePath === "app/components/Header.tsx",
+  )?.source ?? "";
+  const data = appFiles.find(
+    ({ relativePath }) => relativePath === "app/data.ts",
+  )?.source ?? "";
+
+  for (const label of [
+    "Blog",
+    "Our Agents",
+    "About",
+    "Schedule Viewing",
+    "Communities",
+  ]) {
+    assert.match(data, new RegExp(`label:\\s*["']${label}["']`), label);
+  }
+  assert.doesNotMatch(header, /company\.phoneDisplay|company\.phoneHref|masthead-phone/);
+  assert.doesNotMatch(appSource, />\s*0[1-9]\s*</);
+  assert.doesNotMatch(appSource, />\s*404\s*</);
 });
 
 test("uses local imagery instead of remote Wix image URLs", () => {
