@@ -772,45 +772,48 @@ address {
   color: #d9e7d9;
 }
 
-.quote-switcher figure {
+.testimonial-preview-grid {
+  display: grid;
+  border-top: 1px solid rgb(255 255 255 / 24%);
+  border-bottom: 1px solid rgb(255 255 255 / 24%);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.testimonial-preview-grid figure {
+  display: flex;
+  min-width: 0;
+  min-height: 330px;
   margin: 0;
+  padding: clamp(30px, 3.2vw, 44px);
+  flex-direction: column;
 }
 
-.quote-switcher blockquote {
-  max-width: 960px;
-  margin-bottom: 28px;
-  font-size: clamp(1.75rem, 3vw, 2.9rem);
-  font-weight: 460;
-  line-height: 1.18;
-  letter-spacing: -0.02em;
+.testimonial-preview-grid figure + figure {
+  border-left: 1px solid rgb(255 255 255 / 24%);
 }
 
-.quote-switcher figcaption {
+.testimonial-preview-grid blockquote {
+  margin: 0 0 34px;
+  font-size: clamp(1.2rem, 1.65vw, 1.55rem);
+  font-weight: 450;
+  line-height: 1.36;
+  letter-spacing: -0.012em;
+}
+
+.testimonial-preview-grid figcaption {
+  display: flex;
+  margin-top: auto;
+  gap: 12px;
   color: #d9e7d9;
   font-weight: 720;
+  align-items: center;
 }
 
-.quote-names {
-  display: flex;
-  gap: 18px;
-  margin-top: 38px;
-  padding-top: 16px;
-  border-top: 1px solid rgb(255 255 255 / 22%);
-}
-
-.quote-names button {
-  padding: 7px 0;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  color: #b9c9bf;
-  background: transparent;
-  font-size: 0.88rem;
-  cursor: pointer;
-}
-
-.quote-names button[aria-pressed="true"] {
-  color: var(--cream);
-  border-bottom-color: var(--gold);
+.testimonial-preview-grid figcaption::before {
+  width: 24px;
+  height: 2px;
+  background: var(--gold);
+  content: "";
 }
 
 .journal-preview {
@@ -2291,8 +2294,17 @@ address {
     flex-direction: column;
   }
 
-  .quote-names {
-    flex-wrap: wrap;
+  .testimonial-preview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonial-preview-grid figure {
+    min-height: auto;
+  }
+
+  .testimonial-preview-grid figure + figure {
+    border-top: 1px solid rgb(255 255 255 / 24%);
+    border-left: 0;
   }
 
   .article-row > a,
