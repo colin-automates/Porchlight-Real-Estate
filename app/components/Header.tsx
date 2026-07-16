@@ -90,7 +90,7 @@ export function Header() {
           {headerNavItems.map((item) => (
             <Link
               key={item.href}
-              className={item.href.startsWith("/contact") ? "schedule-link" : undefined}
+              className={item.href === "/schedule-viewing" ? "schedule-link" : undefined}
               href={item.href}
               onClick={closeMenu}
             >

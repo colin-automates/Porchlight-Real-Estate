@@ -32,6 +32,8 @@ const REQUIRED_FILES = [
   "app/blog/page.tsx",
   "app/blog/[slug]/page.tsx",
   "app/contact/page.tsx",
+  "app/schedule-viewing/page.tsx",
+  "app/components/ScheduleViewingForm.tsx",
   "app/privacy/page.tsx",
   "app/privacy-policy/page.tsx",
   "app/accessibility/page.tsx",
@@ -179,6 +181,11 @@ test("uses the requested primary navigation and no decorative numbering", () => 
   ]) {
     assert.match(data, new RegExp(`label:\\s*["']${label}["']`), label);
   }
+  assert.match(
+    data,
+    /\{\s*label:\s*"Schedule Viewing",\s*href:\s*"\/schedule-viewing"\s*\}/,
+  );
+  assert.match(header, /item\.href === "\/schedule-viewing" \? "schedule-link"/);
   assert.doesNotMatch(header, /company\.phoneDisplay|company\.phoneHref|masthead-phone/);
   assert.doesNotMatch(appSource, />\s*0[1-9]\s*</);
   assert.doesNotMatch(appSource, />\s*404\s*</);
@@ -260,4 +267,19 @@ test("gives the homepage photograph a clear message and actions", () => {
     /\.home-hero-grid\s*\{[\s\S]*?display:\s*grid[\s\S]*?grid-template-columns:/i,
   );
   assert.doesNotMatch(appSource, /masthead-service-area/);
+});
+
+test("provides an honest scheduling form without a fake submission state", () => {
+  const form = appFiles.find(
+    ({ relativePath }) =>
+      relativePath === "app/components/ScheduleViewingForm.tsx",
+  )?.source ?? "";
+
+  assert.match(form, /<form[\s\S]*?property[\s\S]*?preferredDate[\s\S]*?preferredTime/);
+  assert.match(
+    form,
+    /window\.location\.href\s*=[\s\S]*?"mailto:"\s*\+\s*company\.email/,
+  );
+  assert.match(form, />\s*Continue in email\s*</);
+  assert.doesNotMatch(form, /setSent|success|submitted/i);
 });

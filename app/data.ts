@@ -42,8 +42,8 @@ export const headerNavItems = [
   { label: "Blog", href: "/blog" },
   { label: "Our Agents", href: "/agents" },
   { label: "About", href: "/about" },
-  { label: "Schedule Viewing", href: "/contact#schedule-viewing" },
   { label: "Communities", href: "/communities" },
+  { label: "Schedule Viewing", href: "/schedule-viewing" },
 ] as const;
 
 export const aboutParagraphs = [

@@ -77,6 +77,7 @@ test("renders key SEO routes and a standalone article", async () => {
     "/testimonials",
     "/blog",
     "/contact",
+    "/schedule-viewing",
     "/privacy",
     "/accessibility",
     "/blog/understanding-home-inspections-and-negotiating-repairs-with-sellers",
@@ -101,7 +102,7 @@ test("keeps legacy paths redirected", async () => {
   const redirects = new Map([
     ["/privacy-policy", "/privacy"],
     ["/accessibility-statement", "/accessibility"],
-    ["/book-online", "/contact"],
+    ["/book-online", "/schedule-viewing"],
   ]);
 
   for (const [from, to] of redirects) {
@@ -123,4 +124,15 @@ test("publishes crawl directives", async () => {
     await sitemapResponse.text(),
     /understanding-home-inspections-and-negotiating-repairs-with-sellers/i,
   );
+});
+
+test("renders the schedule-viewing form without claiming delivery", async () => {
+  const response = await render("/schedule-viewing");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /<form\b/i);
+  assert.match(html, /Property address or listing link/i);
+  assert.match(html, /Preferred date/i);
+  assert.match(html, /Continue in email/i);
+  assert.doesNotMatch(html, /successfully submitted|message sent/i);
 });

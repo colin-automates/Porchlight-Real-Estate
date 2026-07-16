@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/book-online",
-        destination: "/contact",
+        destination: "/schedule-viewing",
         permanent: true,
       },
     ];
