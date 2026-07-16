@@ -39,7 +39,7 @@ export default function Home() {
             step in Chattanooga and nearby North Georgia.
           </p>
           <div className="action-row">
-            <Link className="button" href="/buying">
+            <Link className="button button-gold" href="/buying">
               I’m buying
             </Link>
             <Link className="button button-light" href="/selling">

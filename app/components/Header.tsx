@@ -86,9 +86,6 @@ export function Header() {
           <img src="/assets/brand/porchlight-logo.png" alt="Porchlight Real Estate" />
         </Link>
 
-        <p className="masthead-service-area">
-          Serving Greater Chattanooga and nearby North Georgia
-        </p>
         <nav className="masthead-navigation" aria-label="Primary navigation">
           {headerNavItems.map((item) => (
             <Link

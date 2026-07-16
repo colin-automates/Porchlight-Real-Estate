@@ -243,24 +243,21 @@ test("does not simulate a successful contact submission", () => {
     );
   }
 });
-test("keeps the desktop header locally grounded without crowding mobile", () => {
-  const header = appFiles.find(
-    ({ relativePath }) => relativePath === "app/components/Header.tsx",
+test("gives the homepage photograph a clear message and actions", () => {
+  const home = appFiles.find(
+    ({ relativePath }) => relativePath === "app/page.tsx",
   )?.source ?? "";
   const styles = appFiles.find(
     ({ relativePath }) => relativePath === "app/globals.css",
   )?.source ?? "";
 
   assert.match(
-    header,
-    /Serving Greater Chattanooga and nearby North Georgia/,
+    home,
+    /home-hero-copy[\s\S]*?company\.tagline[\s\S]*?href="\/buying"[\s\S]*?href="\/selling"/,
   );
   assert.match(
     styles,
-    /\.masthead-service-area\s*\{[\s\S]*?text-transform:\s*uppercase/i,
+    /\.home-hero-copy\s*\{[\s\S]*?position:\s*absolute[\s\S]*?background:\s*var\(--green-deep\)/i,
   );
-  assert.match(
-    styles,
-    /@media\s*\(max-width:\s*1180px\)[\s\S]*?\.masthead-service-area\s*\{[\s\S]*?display:\s*none/i,
-  );
+  assert.doesNotMatch(appSource, /masthead-service-area/);
 });
