@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AgentGrid } from "./components/AgentGrid";
 import { Testimonials } from "./components/Testimonials";
 import { agents, articles, communities, company, services } from "./data";
 import { pageMetadata } from "./lib/metadata";
@@ -149,24 +148,42 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="team-preview section-space">
-        <div className="shell">
-          <header className="split-heading team-preview-heading">
-            <div>
-              <p className="label">The people beside you</p>
-              <h2>Local knowledge. Direct communication. Genuine care.</h2>
-            </div>
-            <div>
-              <p>
-                Meet the agents who bring Porchlight’s relationship-first
-                approach to every client conversation.
-              </p>
-              <Link className="text-link" href="/agents">
-                Meet the full team <span aria-hidden="true">→</span>
-              </Link>
-            </div>
+      <section className="team-preview section-space" aria-labelledby="team-heading">
+        <div className="shell team-showcase">
+          <header className="team-showcase-intro">
+            <p className="label label-light">Meet Porchlight</p>
+            <h2 id="team-heading">Good moves start with good people.</h2>
+            <p>
+              Local guidance, clear communication, and personal attention from
+              agents who put relationships first.
+            </p>
+            <Link className="button button-gold" href="/agents">
+              Meet the full team
+            </Link>
           </header>
-          <AgentGrid agents={agents.slice(0, 4)} />
+
+          <div className="team-showcase-roster">
+            {agents.slice(0, 4).map((agent) => (
+              <Link
+                className="team-showcase-agent"
+                href="/agents"
+                aria-label={"Meet " + agent.name + " on the agents page"}
+                key={agent.name}
+              >
+                <div className="team-showcase-photo">
+                  <img
+                    src={agent.image}
+                    alt={"Portrait of " + agent.name}
+                    loading="lazy"
+                  />
+                </div>
+                <div className="team-showcase-caption">
+                  <h3>{agent.name}</h3>
+                  <p>{agent.role}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
