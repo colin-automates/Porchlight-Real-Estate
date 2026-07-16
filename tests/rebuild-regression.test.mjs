@@ -253,11 +253,11 @@ test("gives the homepage photograph a clear message and actions", () => {
 
   assert.match(
     home,
-    /home-hero-copy[\s\S]*?company\.tagline[\s\S]*?href="\/buying"[\s\S]*?href="\/selling"/,
+    /home-hero-grid[\s\S]*?home-hero-copy[\s\S]*?company\.tagline[\s\S]*?href="\/buying"[\s\S]*?href="\/selling"[\s\S]*?home-hero-photo/,
   );
   assert.match(
     styles,
-    /\.home-hero-copy\s*\{[\s\S]*?position:\s*absolute[\s\S]*?background:\s*var\(--green-deep\)/i,
+    /\.home-hero-grid\s*\{[\s\S]*?display:\s*grid[\s\S]*?grid-template-columns:/i,
   );
   assert.doesNotMatch(appSource, /masthead-service-area/);
 });

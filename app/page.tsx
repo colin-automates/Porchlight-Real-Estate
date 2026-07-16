@@ -24,31 +24,33 @@ export default function Home() {
       />
 
       <section className="home-hero" aria-labelledby="home-heading">
-        <figure className="home-hero-photo">
-          <img
-            src="/assets/rebuild/residential-porch.webp"
-            alt="A shaded residential porch with rocking chairs and a porch swing"
-            fetchPriority="high"
-          />
-        </figure>
-        <div className="shell home-hero-copy">
-          <p className="location-line">Greater Chattanooga</p>
-          <h1 id="home-heading">{company.tagline}</h1>
-          <p>
-            Personal guidance for buying, selling, and finding the right next
-            step in Chattanooga and nearby North Georgia.
-          </p>
-          <div className="action-row">
-            <Link className="button button-gold" href="/buying">
-              I’m buying
-            </Link>
-            <Link className="button button-light" href="/selling">
-              I’m selling
-            </Link>
+        <div className="shell home-hero-grid">
+          <div className="home-hero-copy">
+            <p className="location-line">Greater Chattanooga</p>
+            <h1 id="home-heading">{company.tagline}</h1>
+            <p>
+              Personal guidance for buying, selling, and finding the right next
+              step in Chattanooga and nearby North Georgia.
+            </p>
+            <div className="action-row">
+              <Link className="button" href="/buying">
+                I’m buying
+              </Link>
+              <Link className="button button-outline" href="/selling">
+                I’m selling
+              </Link>
+            </div>
           </div>
+          <figure className="home-hero-photo">
+            <img
+              src="/assets/rebuild/residential-porch.webp"
+              alt="A shaded residential porch with rocking chairs and a porch swing"
+              fetchPriority="high"
+            />
+            <figcaption>Home starts with a place that feels like yours.</figcaption>
+          </figure>
         </div>
       </section>
-
       <section className="belief-section section-space">
         <div className="shell belief-grid">
           <img
