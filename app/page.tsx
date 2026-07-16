@@ -15,6 +15,8 @@ export const metadata: Metadata = pageMetadata({
 metadata.title = { absolute: "Porchlight Real Estate | Greater Chattanooga" };
 
 export default function Home() {
+  const christian = agents[0];
+
   return (
     <main id="main-content">
       <script
@@ -149,40 +151,26 @@ export default function Home() {
       </section>
 
       <section className="team-preview section-space" aria-labelledby="team-heading">
-        <div className="shell team-showcase">
-          <header className="team-showcase-intro">
-            <p className="label label-light">Meet Porchlight</p>
-            <h2 id="team-heading">Good moves start with good people.</h2>
+        <div className="shell team-feature">
+          <figure className="team-feature-photo">
+            <img
+              src={christian.image}
+              alt={`Portrait of ${christian.name}`}
+              loading="lazy"
+            />
+          </figure>
+
+          <div className="team-feature-copy">
+            <p className="label label-light">{christian.role}</p>
+            <h2 id="team-heading">Meet Christian Beairsto.</h2>
             <p>
-              Local guidance, clear communication, and personal attention from
-              agents who put relationships first.
+              Christian leads Porchlight Real Estate as owner and broker. Get
+              to know the full team behind the brokerage's relationship-first
+              approach.
             </p>
             <Link className="button button-gold" href="/agents">
-              Meet the full team
+              Meet the team
             </Link>
-          </header>
-
-          <div className="team-showcase-roster">
-            {agents.slice(0, 4).map((agent) => (
-              <Link
-                className="team-showcase-agent"
-                href="/agents"
-                aria-label={"Meet " + agent.name + " on the agents page"}
-                key={agent.name}
-              >
-                <div className="team-showcase-photo">
-                  <img
-                    src={agent.image}
-                    alt={"Portrait of " + agent.name}
-                    loading="lazy"
-                  />
-                </div>
-                <div className="team-showcase-caption">
-                  <h3>{agent.name}</h3>
-                  <p>{agent.role}</p>
-                </div>
-              </Link>
-            ))}
           </div>
         </div>
       </section>
