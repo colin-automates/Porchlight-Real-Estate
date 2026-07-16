@@ -243,3 +243,24 @@ test("does not simulate a successful contact submission", () => {
     );
   }
 });
+test("keeps the desktop header locally grounded without crowding mobile", () => {
+  const header = appFiles.find(
+    ({ relativePath }) => relativePath === "app/components/Header.tsx",
+  )?.source ?? "";
+  const styles = appFiles.find(
+    ({ relativePath }) => relativePath === "app/globals.css",
+  )?.source ?? "";
+
+  assert.match(
+    header,
+    /Serving Greater Chattanooga and nearby North Georgia/,
+  );
+  assert.match(
+    styles,
+    /\.masthead-service-area\s*\{[\s\S]*?text-transform:\s*uppercase/i,
+  );
+  assert.match(
+    styles,
+    /@media\s*\(max-width:\s*1180px\)[\s\S]*?\.masthead-service-area\s*\{[\s\S]*?display:\s*none/i,
+  );
+});
