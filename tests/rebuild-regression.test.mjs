@@ -176,16 +176,15 @@ test("uses the requested primary navigation and no decorative numbering", () => 
     "Blog",
     "Our Agents",
     "About",
-    "Schedule Viewing",
     "Communities",
   ]) {
     assert.match(data, new RegExp(`label:\\s*["']${label}["']`), label);
   }
   assert.match(
-    data,
-    /\{\s*label:\s*"Schedule Viewing",\s*href:\s*"\/schedule-viewing"\s*\}/,
+    header,
+    /<\/nav>\s*<Link\s+className="masthead-schedule"\s+href="\/schedule-viewing"/,
   );
-  assert.match(header, /item\.href === "\/schedule-viewing" \? "schedule-link"/);
+  assert.match(header, /className="menu-schedule"[\s\S]*?href="\/schedule-viewing"/);
   assert.doesNotMatch(header, /company\.phoneDisplay|company\.phoneHref|masthead-phone/);
   assert.doesNotMatch(appSource, />\s*0[1-9]\s*</);
   assert.doesNotMatch(appSource, />\s*404\s*</);

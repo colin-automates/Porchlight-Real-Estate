@@ -43,7 +43,6 @@ export const headerNavItems = [
   { label: "Our Agents", href: "/agents" },
   { label: "About", href: "/about" },
   { label: "Communities", href: "/communities" },
-  { label: "Schedule Viewing", href: "/schedule-viewing" },
 ] as const;
 
 export const aboutParagraphs = [

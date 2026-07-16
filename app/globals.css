@@ -256,9 +256,9 @@ address {
 .masthead-row {
   display: grid;
   min-height: 78px;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: clamp(36px, 5vw, 82px);
+  gap: clamp(22px, 3vw, 40px);
 }
 
 .menu-trigger {
@@ -298,7 +298,7 @@ address {
 
 .masthead-navigation {
   display: flex;
-  gap: clamp(18px, 2vw, 32px);
+  gap: clamp(18px, 2vw, 30px);
   align-items: center;
   justify-self: end;
   font-size: 0.84rem;
@@ -311,7 +311,7 @@ address {
   white-space: nowrap;
 }
 
-.masthead-navigation a:not(.schedule-link)::after {
+.masthead-navigation a::after {
   position: absolute;
   right: 0;
   bottom: 3px;
@@ -324,23 +324,26 @@ address {
   transition: transform 160ms ease;
 }
 
-.masthead-navigation a:not(.schedule-link):hover::after,
-.masthead-navigation a:not(.schedule-link):focus-visible::after {
+.masthead-navigation a:hover::after,
+.masthead-navigation a:focus-visible::after {
   transform: scaleX(1);
 }
 
-.masthead-navigation .schedule-link {
-  margin-left: 4px;
+.masthead-schedule {
+  justify-self: end;
   padding: 11px 18px;
   color: var(--cream);
   background: var(--green);
   border: 1px solid var(--green);
+  font-size: 0.84rem;
+  font-weight: 720;
+  white-space: nowrap;
   transition: color 160ms ease, background-color 160ms ease,
     border-color 160ms ease;
 }
 
-.masthead-navigation .schedule-link:hover,
-.masthead-navigation .schedule-link:focus-visible {
+.masthead-schedule:hover,
+.masthead-schedule:focus-visible {
   color: var(--cream);
   background: var(--fern);
   border-color: var(--fern);
@@ -401,6 +404,9 @@ address {
   color: #f0d06f;
 }
 
+.menu-primary .menu-schedule {
+  color: #f0d06f;
+}
 .menu-contact {
   display: flex;
   flex-direction: column;
@@ -1971,7 +1977,8 @@ address {
     width: 176px;
   }
 
-  .masthead-navigation {
+  .masthead-navigation,
+  .masthead-schedule {
     display: none;
   }
 

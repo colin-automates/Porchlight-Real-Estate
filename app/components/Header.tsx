@@ -90,7 +90,6 @@ export function Header() {
           {headerNavItems.map((item) => (
             <Link
               key={item.href}
-              className={item.href === "/schedule-viewing" ? "schedule-link" : undefined}
               href={item.href}
               onClick={closeMenu}
             >
@@ -98,6 +97,14 @@ export function Header() {
             </Link>
           ))}
         </nav>
+
+        <Link
+          className="masthead-schedule"
+          href="/schedule-viewing"
+          onClick={closeMenu}
+        >
+          Schedule Viewing
+        </Link>
       </div>
 
       {open ? (
@@ -119,6 +126,13 @@ export function Header() {
                   {item.label}
                 </Link>
               ))}
+              <Link
+                className="menu-schedule"
+                href="/schedule-viewing"
+                onClick={closeMenu}
+              >
+                Schedule Viewing
+              </Link>
             </nav>
             <div className="menu-contact">
               <p>Serving Greater Chattanooga and nearby North Georgia.</p>
