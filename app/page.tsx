@@ -179,9 +179,6 @@ export default function Home() {
         <div className="shell">
           <div className="testimonial-preview-heading">
             <p className="label">Client experiences</p>
-            <Link className="text-link text-link-light" href="/testimonials">
-              Read every testimonial <span aria-hidden="true">→</span>
-            </Link>
           </div>
           <Testimonials />
         </div>
