@@ -64,7 +64,7 @@ export function Header() {
   useEffect(() => {
     if (!isHome) return;
 
-    const updateHeader = () => setScrolled(window.scrollY > 48);
+    const updateHeader = () => setScrolled(window.scrollY > 24);
     updateHeader();
     window.addEventListener("scroll", updateHeader, { passive: true });
     return () => window.removeEventListener("scroll", updateHeader);
@@ -110,6 +110,11 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
+              aria-current={
+                pathname === item.href || pathname.startsWith(`${item.href}/`)
+                  ? "page"
+                  : undefined
+              }
               onClick={closeMenu}
             >
               {item.label}
