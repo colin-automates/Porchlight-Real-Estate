@@ -249,14 +249,32 @@ address {
   position: sticky;
   z-index: 1000;
   top: 0;
+  color: var(--ink);
   border-bottom: 1px solid var(--line);
+  background: var(--cream);
+  transition: color 180ms ease, background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.masthead[data-home] {
+  position: fixed;
+  right: 0;
+  left: 0;
+  color: var(--cream);
+  border-bottom-color: transparent;
+  background: transparent;
+}
+
+.masthead[data-home][data-solid] {
+  color: var(--ink);
+  border-bottom-color: var(--line);
   background: var(--cream);
 }
 
 .masthead-row {
   display: grid;
   width: calc(100% - clamp(40px, 6vw, 120px));
-  min-height: 104px;
+  min-height: 96px;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: clamp(26px, 3vw, 48px);
@@ -276,6 +294,10 @@ address {
   cursor: pointer;
 }
 
+.masthead[data-home]:not([data-solid]) .menu-trigger {
+  color: var(--cream);
+}
+
 .menu-trigger-lines {
   display: grid;
   width: 24px;
@@ -293,8 +315,13 @@ address {
 }
 
 .masthead-logo img {
-  width: clamp(220px, 15vw, 270px);
+  width: clamp(210px, 14vw, 252px);
   height: auto;
+  transition: filter 180ms ease;
+}
+
+.masthead[data-home]:not([data-solid]) .masthead-logo img {
+  filter: brightness(0) invert(1);
 }
 
 .masthead-navigation {
@@ -325,6 +352,10 @@ address {
   transition: transform 160ms ease;
 }
 
+.masthead[data-home]:not([data-solid]) .masthead-navigation a::after {
+  background: var(--gold);
+}
+
 .masthead-navigation a:hover::after,
 .masthead-navigation a:focus-visible::after {
   transform: scaleX(1);
@@ -348,6 +379,19 @@ address {
   color: var(--cream);
   background: var(--fern);
   border-color: var(--fern);
+}
+
+.masthead[data-home]:not([data-solid]) .masthead-schedule {
+  color: var(--green-deep);
+  border-color: var(--gold);
+  background: var(--gold);
+}
+
+.masthead[data-home]:not([data-solid]) .masthead-schedule:hover,
+.masthead[data-home]:not([data-solid]) .masthead-schedule:focus-visible {
+  color: var(--green-deep);
+  border-color: #e8c25c;
+  background: #e8c25c;
 }
 .menu-panel {
   position: fixed;
@@ -428,47 +472,92 @@ address {
 
 /* Home */
 .home-hero {
-  padding: clamp(28px, 3vw, 46px) 0 clamp(72px, 8vw, 110px);
-  background: var(--cream);
+  position: relative;
+  min-height: 100svh;
+  padding: 0;
+  background: var(--green-deep);
 }
 
 .home-hero-grid {
-  display: grid;
-  width: calc(100% - clamp(40px, 6vw, 120px));
-  min-height: clamp(720px, calc(100svh - 150px), 900px);
-  grid-template-columns: minmax(480px, 0.8fr) minmax(0, 1.2fr);
-  align-items: stretch;
-  background: var(--paper);
-  border: 1px solid var(--line);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  width: 100%;
+  min-height: 100svh;
+  align-items: flex-end;
+  overflow: hidden;
+  background: var(--green-deep);
+}
+
+.home-hero-grid::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: rgb(7 28 21 / 48%);
+  content: "";
 }
 
 .home-hero-copy {
+  position: relative;
+  z-index: 2;
   display: flex;
-  padding: clamp(56px, 6vw, 96px);
+  width: 100%;
+  padding: clamp(170px, 22vh, 240px) clamp(40px, 7vw, 140px)
+    clamp(64px, 10vh, 112px);
+  color: var(--cream);
   flex-direction: column;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-end;
 }
 
 .home-hero-copy .location-line {
-  color: var(--fern);
+  color: #f0d06f;
 }
 
 .home-hero-copy h1 {
-  max-width: 12ch;
-  margin-bottom: 26px;
-  font-size: clamp(3.6rem, 5.2vw, 5.8rem);
+  max-width: 10ch;
+  margin-bottom: 28px;
+  font-size: clamp(4rem, 6.4vw, 7.25rem);
+  line-height: 0.94;
+  letter-spacing: -0.045em;
 }
 
 .home-hero-copy > p:not(.location-line) {
-  max-width: 39ch;
+  max-width: 46ch;
   margin-bottom: 34px;
-  color: var(--muted);
-  font-size: 1.14rem;
+  color: #eef3ed;
+  font-size: clamp(1.08rem, 1.35vw, 1.28rem);
+}
+
+.home-hero-copy .button {
+  color: var(--green-deep);
+  border-color: var(--gold);
+  background: var(--gold);
+}
+
+.home-hero-copy .button:hover {
+  color: var(--green-deep);
+  border-color: #e8c25c;
+  background: #e8c25c;
+}
+
+.home-hero-copy .button-outline {
+  color: var(--cream);
+  border-color: rgb(255 255 255 / 72%);
+  background: transparent;
+}
+
+.home-hero-copy .button-outline:hover {
+  color: var(--green-deep);
+  border-color: var(--cream);
+  background: var(--cream);
 }
 
 .home-hero-photo {
-  position: relative;
-  min-height: clamp(720px, calc(100svh - 150px), 900px);
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  min-height: 100%;
   margin: 0;
   overflow: hidden;
   background: var(--green-deep);
@@ -483,11 +572,11 @@ address {
 
 .home-hero-photo figcaption {
   position: absolute;
-  right: 20px;
-  bottom: 18px;
+  right: clamp(20px, 4vw, 64px);
+  bottom: clamp(18px, 4vw, 42px);
   padding: 7px 10px;
   color: var(--cream);
-  background: var(--green-deep);
+  background: rgb(16 54 43 / 82%);
   font-size: 0.72rem;
   letter-spacing: 0.025em;
 }
@@ -1973,10 +2062,6 @@ address {
 }
 
 @media (max-width: 1100px) {
-  .home-hero-grid {
-    grid-template-columns: minmax(330px, 0.88fr) minmax(0, 1.12fr);
-  }
-
   .belief-grid,
   .split-heading,
   .support-line,
@@ -2053,22 +2138,21 @@ address {
   }
 
   .home-hero {
-    padding-top: 20px;
+    min-height: 100svh;
+    padding: 0;
   }
 
   .home-hero-grid {
-    width: min(calc(100% - (var(--gutter) * 2)), var(--shell));
-    min-height: auto;
-    grid-template-columns: 1fr;
+    width: 100%;
+    min-height: 100svh;
   }
 
   .home-hero-copy {
-    padding: 46px;
+    padding: clamp(150px, 20vh, 190px) clamp(26px, 6vw, 54px) 58px;
   }
 
   .home-hero-photo {
-    min-height: 480px;
-    order: -1;
+    min-height: 100%;
   }
 
   .team-feature {
@@ -2227,19 +2311,20 @@ address {
   }
 
   .home-hero {
-    padding-top: 12px;
+    padding: 0;
   }
 
   .home-hero-copy {
-    padding: 34px 26px 38px;
+    padding: 132px 22px 44px;
   }
 
   .home-hero-copy h1 {
-    font-size: 2.65rem;
+    max-width: 11ch;
+    font-size: clamp(3rem, 15vw, 4.1rem);
   }
 
   .home-hero-photo {
-    min-height: 340px;
+    min-height: 100%;
   }
 
   .home-hero-photo figcaption {

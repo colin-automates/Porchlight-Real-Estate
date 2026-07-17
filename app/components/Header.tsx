@@ -1,13 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { company, headerNavItems } from "../data";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   useEffect(() => {
     if (!open) return;
@@ -57,10 +61,25 @@ export function Header() {
     return () => desktop.removeEventListener("change", closeAtDesktop);
   }, []);
 
+  useEffect(() => {
+    if (!isHome) return;
+
+    const updateHeader = () => setScrolled(window.scrollY > 48);
+    updateHeader();
+    window.addEventListener("scroll", updateHeader, { passive: true });
+    return () => window.removeEventListener("scroll", updateHeader);
+  }, [isHome]);
+
   const closeMenu = () => setOpen(false);
+  const solidHeader = !isHome || scrolled || open;
 
   return (
-    <header className="masthead" data-open={open || undefined}>
+    <header
+      className="masthead"
+      data-home={isHome || undefined}
+      data-solid={solidHeader || undefined}
+      data-open={open || undefined}
+    >
       <div className="shell masthead-row">
         <button
           ref={menuButtonRef}
