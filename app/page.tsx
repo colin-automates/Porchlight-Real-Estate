@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Testimonials } from "./components/Testimonials";
-import { agents, articles, communities, company, services } from "./data";
+import { agents, communities, company, services } from "./data";
 import { pageMetadata } from "./lib/metadata";
 import { organizationSchema } from "./lib/structured-data";
 
@@ -181,37 +181,6 @@ export default function Home() {
             <p className="label">Client experiences</p>
           </div>
           <Testimonials />
-        </div>
-      </section>
-
-      <section className="journal-preview section-space">
-        <div className="shell">
-          <header className="split-heading">
-            <div>
-              <p className="label">The Porchlight Journal</p>
-              <h2>Useful answers for buyers and sellers.</h2>
-            </div>
-            <Link className="text-link" href="/blog">
-              View all articles <span aria-hidden="true">→</span>
-            </Link>
-          </header>
-          <div className="article-row-list">
-            {articles.map((article) => (
-              <article className="article-row" key={article.slug}>
-                <Link href={`/blog/${article.slug}`}>
-                  <img src={article.image} alt={article.alt} loading="lazy" />
-                  <div>
-                    <p className="article-meta">
-                      {article.category} <span>•</span> {article.date}
-                    </p>
-                    <h3>{article.title}</h3>
-                    <p>{article.excerpt}</p>
-                    <span className="text-link">Read article →</span>
-                  </div>
-                </Link>
-              </article>
-            ))}
-          </div>
         </div>
       </section>
 
