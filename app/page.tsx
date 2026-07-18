@@ -54,15 +54,8 @@ export default function Home() {
       </section>
       <section className="belief-section section-space">
         <div className="shell belief-grid">
-          <img
-            className="belief-mark"
-            src="/assets/brand/porchlight-mark.png"
-            alt=""
-            aria-hidden="true"
-            loading="lazy"
-          />
           <div>
-            <p className="label">The Porchlight approach</p>
+            <p className="label label-light">The Porchlight approach</p>
             <h2>People first, from the first question through closing day.</h2>
           </div>
           <div className="belief-copy">
@@ -71,8 +64,8 @@ export default function Home() {
               about people, not profit margins. Honest guidance, clear
               communication, and lasting relationships shape every move.
             </p>
-            <Link className="text-link" href="/about">
-              About Porchlight <span aria-hidden="true">→</span>
+            <Link className="button button-gold belief-link" href="/about">
+              About Porchlight <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
         </div>
@@ -80,7 +73,7 @@ export default function Home() {
 
       <section className="service-paths section-space">
         <div className="shell">
-          <header className="split-heading">
+          <header className="service-paths-heading">
             <div>
               <p className="label">How we help</p>
               <h2>A clear path for the move in front of you.</h2>
@@ -91,18 +84,23 @@ export default function Home() {
             </p>
           </header>
 
-          <div className="service-path-list">
+          <div className="service-path-panels">
             {services.slice(0, 2).map((service) => (
               <Link
                 key={service.slug}
-                className="service-path"
+                className={`service-path service-path-${service.slug}`}
                 href={service.slug === "buying" ? "/buying" : "/selling"}
               >
-                <div>
+                <p className="service-path-label">
+                  {service.slug === "buying" ? "For buyers" : "For sellers"}
+                </p>
+                <div className="service-path-copy">
                   <h3>{service.title}</h3>
                   <p>{service.intro}</p>
                 </div>
-                <span aria-hidden="true">Explore →</span>
+                <span className="service-path-action">
+                  Explore {service.slug} <span aria-hidden="true">&rarr;</span>
+                </span>
               </Link>
             ))}
           </div>
