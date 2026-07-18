@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Testimonials } from "./components/Testimonials";
-import { agents, communities, company, services } from "./data";
+import { agents, communities, company } from "./data";
 import { pageMetadata } from "./lib/metadata";
 import { organizationSchema } from "./lib/structured-data";
 
@@ -13,6 +13,33 @@ export const metadata: Metadata = pageMetadata({
 });
 
 metadata.title = { absolute: "Porchlight Real Estate | Greater Chattanooga" };
+
+const serviceHighlights = [
+  {
+    title: "Home search and tours",
+    description:
+      "Personalized home searches, property tours, offer strategy, and contract-to-close coordination.",
+    href: "/buying",
+  },
+  {
+    title: "Listing preparation and marketing",
+    description:
+      "Home valuation, professional photography, marketing, showings, and open-house management.",
+    href: "/selling",
+  },
+  {
+    title: "Offers, negotiations, and closing",
+    description:
+      "Offer review, negotiation strategy, contract guidance, and steady support through closing.",
+    href: "/services",
+  },
+  {
+    title: "Relocation and local connections",
+    description:
+      "Relocation guidance, local insights, and connections to trusted area vendors.",
+    href: "/services",
+  },
+] as const;
 
 export default function Home() {
   const christian = agents[0];
@@ -71,51 +98,36 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="service-paths">
-        <header className="shell service-paths-heading">
-          <div>
-            <p className="label">How we help</p>
-            <h2>A clear path for the move in front of you.</h2>
-          </div>
-          <p>
-            Begin with the goal that fits today. Porchlight&apos;s team can help
-            shape everything that follows.
-          </p>
-        </header>
-
-        <div className="service-path-panels">
-          {services.slice(0, 2).map((service) => (
-            <Link
-              key={service.slug}
-              className={`service-path service-path-${service.slug}`}
-              href={service.slug === "buying" ? "/buying" : "/selling"}
-            >
-              <p className="service-path-label">
-                {service.slug === "buying" ? "For buyers" : "For sellers"}
+      <section className="service-overview section-space">
+        <div className="service-overview-shell">
+          <header className="service-overview-heading">
+            <div>
+              <p className="label">How we help</p>
+              <h2>A clear path for the move in front of you.</h2>
+            </div>
+            <div className="service-overview-intro">
+              <p>
+                Home search, listing preparation, negotiations, closing,
+                relocation, and local connections.
               </p>
-              <div className="service-path-copy">
-                <h3>{service.title}</h3>
-                <p>{service.intro}</p>
-                <ul>
-                  {service.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-              <span className="service-path-action">
-                Explore {service.slug} <span aria-hidden="true">&rarr;</span>
-              </span>
-            </Link>
-          ))}
-        </div>
+              <Link className="button button-outline" href="/services">
+                View every service <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </div>
+          </header>
 
-        <div className="support-band">
-          <div className="shell support-line">
-            <strong>{services[2].title}</strong>
-            <p>{services[2].intro}</p>
-            <Link className="text-link" href="/services">
-              View every service <span aria-hidden="true">&rarr;</span>
-            </Link>
+          <div className="service-overview-list">
+            {serviceHighlights.map((service) => (
+              <Link
+                className="service-overview-item"
+                href={service.href}
+                key={service.title}
+              >
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+                <span aria-hidden="true">&rarr;</span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
