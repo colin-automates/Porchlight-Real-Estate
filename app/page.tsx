@@ -71,45 +71,50 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="service-paths section-space">
-        <div className="shell">
-          <header className="service-paths-heading">
-            <div>
-              <p className="label">How we help</p>
-              <h2>A clear path for the move in front of you.</h2>
-            </div>
-            <p>
-              Begin with the goal that fits today. Porchlight’s team can help
-              shape everything that follows.
-            </p>
-          </header>
-
-          <div className="service-path-panels">
-            {services.slice(0, 2).map((service) => (
-              <Link
-                key={service.slug}
-                className={`service-path service-path-${service.slug}`}
-                href={service.slug === "buying" ? "/buying" : "/selling"}
-              >
-                <p className="service-path-label">
-                  {service.slug === "buying" ? "For buyers" : "For sellers"}
-                </p>
-                <div className="service-path-copy">
-                  <h3>{service.title}</h3>
-                  <p>{service.intro}</p>
-                </div>
-                <span className="service-path-action">
-                  Explore {service.slug} <span aria-hidden="true">&rarr;</span>
-                </span>
-              </Link>
-            ))}
+      <section className="service-paths">
+        <header className="shell service-paths-heading">
+          <div>
+            <p className="label">How we help</p>
+            <h2>A clear path for the move in front of you.</h2>
           </div>
+          <p>
+            Begin with the goal that fits today. Porchlight&apos;s team can help
+            shape everything that follows.
+          </p>
+        </header>
 
-          <div className="support-line">
+        <div className="service-path-panels">
+          {services.slice(0, 2).map((service) => (
+            <Link
+              key={service.slug}
+              className={`service-path service-path-${service.slug}`}
+              href={service.slug === "buying" ? "/buying" : "/selling"}
+            >
+              <p className="service-path-label">
+                {service.slug === "buying" ? "For buyers" : "For sellers"}
+              </p>
+              <div className="service-path-copy">
+                <h3>{service.title}</h3>
+                <p>{service.intro}</p>
+                <ul>
+                  {service.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+              <span className="service-path-action">
+                Explore {service.slug} <span aria-hidden="true">&rarr;</span>
+              </span>
+            </Link>
+          ))}
+        </div>
+
+        <div className="support-band">
+          <div className="shell support-line">
             <strong>{services[2].title}</strong>
             <p>{services[2].intro}</p>
             <Link className="text-link" href="/services">
-              View every service <span aria-hidden="true">→</span>
+              View every service <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
         </div>
