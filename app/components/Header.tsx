@@ -140,9 +140,6 @@ export function Header() {
           aria-modal="true"
           aria-label="Site menu"
         >
-          <button className="menu-panel-close" type="button" onClick={closeMenu}>
-            Close menu
-          </button>
           <div className="shell menu-panel-grid">
             <nav className="menu-primary" aria-label="Primary navigation">
               {headerNavItems.map((item) => (

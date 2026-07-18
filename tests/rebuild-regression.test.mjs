@@ -171,6 +171,9 @@ test("uses the requested primary navigation and no decorative numbering", () => 
   const data = appFiles.find(
     ({ relativePath }) => relativePath === "app/data.ts",
   )?.source ?? "";
+  const styles = appFiles.find(
+    ({ relativePath }) => relativePath === "app/globals.css",
+  )?.source ?? "";
 
   for (const label of [
     "Blog",
@@ -186,6 +189,11 @@ test("uses the requested primary navigation and no decorative numbering", () => 
   );
   assert.match(header, /className="menu-schedule"[\s\S]*?href="\/schedule-viewing"/);
   assert.doesNotMatch(header, /company\.phoneDisplay|company\.phoneHref|masthead-phone/);
+  assert.doesNotMatch(header, /menu-panel-close|>\s*Close menu\s*</);
+  assert.match(
+    styles,
+    /\.masthead\[data-open\][\s\S]*?menu-trigger-lines[\s\S]*?rotate\(45deg\)/,
+  );
   assert.doesNotMatch(appSource, />\s*0[1-9]\s*</);
   assert.doesNotMatch(appSource, />\s*404\s*</);
 });

@@ -312,6 +312,15 @@ address {
   display: block;
   height: 1px;
   background: currentColor;
+  transition: transform 220ms ease;
+}
+
+.masthead[data-open] .menu-trigger-lines span:first-child {
+  transform: translateY(3.5px) rotate(45deg);
+}
+
+.masthead[data-open] .menu-trigger-lines span:last-child {
+  transform: translateY(-3.5px) rotate(-45deg);
 }
 
 .masthead-logo {
@@ -409,21 +418,6 @@ address {
   overflow-y: auto;
   color: var(--cream);
   background: var(--green-deep);
-}
-
-.menu-panel-close {
-  position: absolute;
-  z-index: 1;
-  top: 24px;
-  right: var(--gutter);
-  padding: 8px 0;
-  border: 0;
-  border-bottom: 1px solid currentColor;
-  color: var(--cream);
-  background: transparent;
-  font-size: 0.9rem;
-  font-weight: 720;
-  cursor: pointer;
 }
 
 .menu-panel-grid {
