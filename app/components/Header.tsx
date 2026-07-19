@@ -62,12 +62,38 @@ export function Header() {
   }, []);
 
   useEffect(() => {
-    if (!isHome) return;
+    if (!isHome) {
+      setScrolled(false);
+      return;
+    }
 
-    const updateHeader = () => setScrolled(window.scrollY > 24);
+    let frame = 0;
+    const getScrollPosition = () =>
+      Math.max(
+        window.scrollY || 0,
+        document.documentElement.scrollTop || 0,
+        document.body.scrollTop || 0,
+      );
+    const updateHeader = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        setScrolled(getScrollPosition() > 16);
+      });
+    };
+
     updateHeader();
     window.addEventListener("scroll", updateHeader, { passive: true });
-    return () => window.removeEventListener("scroll", updateHeader);
+    window.addEventListener("resize", updateHeader, { passive: true });
+    window.addEventListener("pageshow", updateHeader);
+    document.addEventListener("touchmove", updateHeader, { passive: true });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", updateHeader);
+      window.removeEventListener("resize", updateHeader);
+      window.removeEventListener("pageshow", updateHeader);
+      document.removeEventListener("touchmove", updateHeader);
+    };
   }, [isHome]);
 
   const closeMenu = () => setOpen(false);

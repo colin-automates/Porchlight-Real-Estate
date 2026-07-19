@@ -276,6 +276,8 @@ address {
 }
 
 .masthead-row {
+  position: relative;
+  z-index: 2;
   display: grid;
   width: calc(100% - clamp(40px, 6vw, 120px));
   min-height: 96px;
@@ -295,6 +297,7 @@ address {
   background: transparent;
   font-size: 0.9rem;
   font-weight: 720;
+  touch-action: manipulation;
   cursor: pointer;
 }
 
@@ -413,9 +416,10 @@ address {
 }
 .menu-panel {
   position: fixed;
-  z-index: -1;
+  z-index: 1;
   inset: 88px 0 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
   color: var(--cream);
   background: var(--green-deep);
 }
@@ -2175,6 +2179,7 @@ address {
 
   .menu-panel-grid {
     min-height: calc(100vh - 72px);
+    min-height: calc(100dvh - 72px);
     grid-template-columns: 1fr;
   }
 

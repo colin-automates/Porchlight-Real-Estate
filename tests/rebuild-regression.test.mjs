@@ -194,6 +194,10 @@ test("uses the requested primary navigation and no decorative numbering", () => 
     styles,
     /\.masthead\[data-open\][\s\S]*?menu-trigger-lines[\s\S]*?rotate\(45deg\)/,
   );
+  assert.match(header, /document\.documentElement\.scrollTop/);
+  assert.match(header, /window\.addEventListener\("pageshow", updateHeader\)/);
+  assert.match(styles, /\.menu-panel\s*\{[\s\S]*?z-index:\s*1;/);
+  assert.doesNotMatch(styles, /\.menu-panel\s*\{[\s\S]*?z-index:\s*-1;/);
   assert.doesNotMatch(appSource, />\s*0[1-9]\s*</);
   assert.doesNotMatch(appSource, />\s*404\s*</);
 });
